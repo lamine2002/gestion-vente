@@ -42,6 +42,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except(['show']);
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
     Route::resource('customers', \App\Http\Controllers\Admin\CustomerController::class)->except(['show']);
+    Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->except(['show']);
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except(['show']);
 });
 
