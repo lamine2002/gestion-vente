@@ -11,18 +11,10 @@ class CategoryPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function before(User $user, string $ability): bool|null
-    {
-        if ($user->role === 'admin') {
-            return true;
-        }
-
-        return null;
-    }
     public function viewAny(User $user): bool
     {
         // tout le monde peut voir les catégories
-        return true;
+        return $user->role === 'admin';
     }
 
     /**
@@ -31,7 +23,7 @@ class CategoryPolicy
     public function view(User $user, Category $category): bool
     {
         // tout le monde peut voir une catégorie
-        return false;
+        return $user->role === 'admin';
     }
 
     /**

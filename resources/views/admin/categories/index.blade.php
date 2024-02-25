@@ -3,6 +3,7 @@
 @section('title', 'Categories')
 
 @section('content')
+    <div>{{ Auth::user()->role }}</div>
     <div class="flex justify-between items-center">
         <a href="{{ route('admin.categories.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ajouter une catégorie</a>
     </div>

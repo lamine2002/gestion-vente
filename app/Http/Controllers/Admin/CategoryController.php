@@ -6,14 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryFormRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Category::class, 'category');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+//        if (Auth::user()->cannot('create', Category::class)) {
+//            abort(403);
+//        }
         return view('admin.categories.index',
             [
                 'categories' => \App\Models\Category::orderBy('created_at', 'desc')->paginate(25)
