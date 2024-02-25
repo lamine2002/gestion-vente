@@ -15,7 +15,7 @@ class ProductPolicy
     {
         return $user->role === 'admin' || $user->role == 'responsable_produits'
             ? Response::allow()
-            : Response::deny('You are not authorized to view products');
+            : Response::deny('Vous n\'êtes pas autorisé à voir tous les produits');
     }
 
     /**
@@ -25,31 +25,37 @@ class ProductPolicy
     {
         return $user->role === 'admin' || $user->role == 'responsable_produits'
             ? Response::allow()
-            : Response::deny('You are not authorized to view this product');
+            : Response::deny('Vous n\'êtes pas autorisé à voir ce produit');
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        return $user->role === 'admin' || $user->role == 'responsable_produits';
+        return $user->role === 'admin' || $user->role == 'responsable_produits'
+            ? Response::allow()
+            : Response::deny('Vous n\'êtes pas autorisé à créer un produit');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Product $product): bool
+    public function update(User $user, Product $product): Response
     {
-        return $user->role === 'admin' || $user->role == 'responsable_produits';
+        return $user->role === 'admin' || $user->role == 'responsable_produits'
+            ? Response::allow()
+            : Response::deny('Vous n\'êtes pas autorisé à modifier ce produit');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Product $product): bool
+    public function delete(User $user, Product $product): Response
     {
-        return $user->role === 'admin' || $user->role == 'responsable_produits';
+        return $user->role === 'admin' || $user->role == 'responsable_produits'
+            ? Response::allow()
+            : Response::deny('Vous n\'êtes pas autorisé à supprimer ce produit');
     }
 
     /**
