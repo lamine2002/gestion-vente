@@ -7,7 +7,7 @@
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('admin.dashboard') }}">
 {{--                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />--}}
-                        Gestor des ventes
+                        Gestion des ventes
                     </a>
                 </div>
 
@@ -15,6 +15,10 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                    {{-- creation du lien pour admin.categories.index             --}}
+                    <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
+                        {{ __('Categories') }}
                     </x-nav-link>
                 </div>
             </div>
