@@ -16,7 +16,7 @@ class CategoryController extends Controller
     {
         return view('admin.categories.index',
             [
-                'categories' => \App\Models\Category::all()
+                'categories' => \App\Models\Category::orderBy('created_at', 'desc')->paginate(25)
             ]
         );
     }
