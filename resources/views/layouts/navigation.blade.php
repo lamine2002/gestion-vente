@@ -71,6 +71,10 @@
             <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            {{-- creation du lien pour admin.categories.index             --}}
+            <x-responsive-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
+                {{ __('Categories') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
