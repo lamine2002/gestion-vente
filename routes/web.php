@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
 //    \App\Models\User::create(
 //        [
-//            'name' => 'lamine',
-//            'email' => 'lamine@gmail.com',
+//            'name' => 'diallo',
+//            'email' => 'diallo@gmail.com',
 //            'password' => \Illuminate\Support\Facades\Hash::make('passer')
 //    ]);
     return view('welcome');

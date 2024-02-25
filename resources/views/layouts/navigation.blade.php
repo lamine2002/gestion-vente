@@ -17,9 +17,11 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     {{-- creation du lien pour admin.categories.index             --}}
-                    <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
-                        {{ __('Categories') }}
-                    </x-nav-link>
+                    @can(['create'], App\Models\Category::class)
+                        <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
+                            {{ __('Categories') }}
+                        </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
