@@ -13,7 +13,8 @@ class CategoryPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        // tout le monde peut voir les catégories
+        return true;
     }
 
     /**
@@ -21,7 +22,8 @@ class CategoryPolicy
      */
     public function view(User $user, Category $category): bool
     {
-        //
+        // tout le monde peut voir une catégorie
+        return true;
     }
 
     /**
@@ -29,7 +31,10 @@ class CategoryPolicy
      */
     public function create(User $user): bool
     {
-        //
+        // seul un admin peut créer une catégorie
+        return $user->role === 'admin';
+//            ? Response::allow()
+//            : Response::deny('Vous devez être administrateur pour créer une catégorie');
     }
 
     /**
@@ -37,7 +42,8 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category): bool
     {
-        //
+        // seul un admin peut modifier une catégorie
+        return $user->role === 'admin';
     }
 
     /**
@@ -45,7 +51,8 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category): bool
     {
-        //
+        // seul un admin peut supprimer une catégorie
+        return $user->role === 'admin';
     }
 
     /**
@@ -53,7 +60,8 @@ class CategoryPolicy
      */
     public function restore(User $user, Category $category): bool
     {
-        //
+        // seul un admin peut restaurer une catégorie
+        return $user->role === 'admin';
     }
 
     /**
@@ -61,6 +69,7 @@ class CategoryPolicy
      */
     public function forceDelete(User $user, Category $category): bool
     {
-        //
+        // seul un admin peut supprimer définitivement une catégorie
+        return $user->role === 'admin';
     }
 }
