@@ -11,6 +11,14 @@ class CategoryPolicy
     /**
      * Determine whether the user can view any models.
      */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->role === 'admin') {
+            return true;
+        }
+
+        return null;
+    }
     public function viewAny(User $user): bool
     {
         // tout le monde peut voir les catégories
@@ -23,45 +31,51 @@ class CategoryPolicy
     public function view(User $user, Category $category): bool
     {
         // tout le monde peut voir une catégorie
-        return true;
+        return false;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
         // seul un admin peut créer une catégorie
-        return $user->role === 'admin';
-//            ? Response::allow()
-//            : Response::deny('Vous devez être administrateur pour créer une catégorie');
+        return $user->role === 'admin'
+            ? Response::allow()
+            : Response::deny('Vous devez être administrateur pour créer une catégorie');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Category $category): bool
+    public function update(User $user, Category $category): Response
     {
         // seul un admin peut modifier une catégorie
-        return $user->role === 'admin';
+        return $user->role === 'admin'
+            ? Response::allow()
+            : Response::deny('Vous devez être administrateur pour modifier une catégorie');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Category $category): bool
+    public function delete(User $user, Category $category): Response
     {
         // seul un admin peut supprimer une catégorie
-        return $user->role === 'admin';
+        return $user->role === 'admin'
+            ? Response::allow()
+            : Response::deny('Vous devez être administrateur pour supprimer une catégorie');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Category $category): bool
+    public function restore(User $user, Category $category): Response
     {
         // seul un admin peut restaurer une catégorie
-        return $user->role === 'admin';
+        return $user->role === 'admin'
+            ? Response::allow()
+            : Response::deny('Vous devez être administrateur pour restaurer une catégorie');
     }
 
     /**
