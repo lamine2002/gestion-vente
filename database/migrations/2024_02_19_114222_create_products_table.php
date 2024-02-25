@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->integer('price');
             $table->integer('stock');
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->foreignId('category_id')->constrained('categories');
             $table->timestamps();
         });
