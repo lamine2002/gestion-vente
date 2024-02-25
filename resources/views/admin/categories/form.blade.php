@@ -13,12 +13,7 @@
         @endif
 
         <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
-
-            <div>
-                <label for="name" class="block text-sm font-medium text-gray-700">Nom de la Categorie</label>
-                <input type="text" name="name" id="name" value="{{ old('name', $category->name) }}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-            </div>
-
+            @include('share.input', ['label' => 'Nom de la Produit', 'name' => 'name', 'value' => old('name', $category->name)])
         </div>
 
         <div>

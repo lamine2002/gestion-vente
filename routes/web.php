@@ -17,10 +17,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
 //    \App\Models\User::create(
 //        [
+//            'name' => 'admin',
+//            'email' => 'admin@gmail.com',
+//            'password' => \Illuminate\Support\Facades\Hash::make('passer')
+//    ]);
+//    \App\Models\User::create(
+//        [
 //            'name' => 'diallo',
 //            'email' => 'diallo@gmail.com',
 //            'password' => \Illuminate\Support\Facades\Hash::make('passer')
-//    ]);
+//        ]);
     return view('welcome');
 });
 
