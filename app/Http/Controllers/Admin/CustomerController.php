@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CustomerFormRequest;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -12,7 +14,11 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.customers.index',
+            [
+                'customers' => \App\Models\Customer::orderBy('created_at', 'desc')->paginate(25)
+            ]
+        );
     }
 
     /**
@@ -20,15 +26,20 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.customers.form',
+            [
+                'customer' => new \App\Models\Customer()
+            ]
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CustomerFormRequest $request)
     {
-        //
+        $customer = \App\Models\Customer::create($request->validated());
+        return redirect()->route('admin.customers.index')->with('success', "Le client $customer->firstname $customer->lastname a été créé avec succès");
     }
 
     /**
@@ -42,24 +53,33 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Customer $customer)
     {
-        //
+        return view('admin.customers.form',
+            [
+                'customer' => $customer
+            ]
+        );
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CustomerFormRequest $request, Customer $customer)
     {
-        //
+        $customer->update($request->validated());
+        return redirect()->route('admin.customers.index')->with('success', "Le client $customer->firstname $customer->lastname a été modifié avec succès");
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        return redirect()->route('admin.customers.index')->with('success', "Le client $customer->firstname $customer->lastname a été supprimé avec succès");
     }
+
 }
