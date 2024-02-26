@@ -12,7 +12,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->role === 'admin';
     }
 
     /**
@@ -20,15 +20,17 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return true;
+        return $user->role === 'admin' || $user->id === $model->id;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        return true;
+        return $user->role === 'admin'
+            ? Response::allow()
+            : Response::deny('Vous n\'êtes pas autorisé à créer un utilisateur.');
     }
 
     /**
@@ -36,7 +38,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return true;
+        return $user->role === 'admin' || $user->id === $model->id;
     }
 
     /**
@@ -44,7 +46,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return true;
+        return $user->role === 'admin';
     }
 
     /**
@@ -60,6 +62,6 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model): bool
     {
-        return true;
+        return $user->role === 'admin';
     }
 }
