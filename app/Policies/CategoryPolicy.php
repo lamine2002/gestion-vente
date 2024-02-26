@@ -14,7 +14,7 @@ class CategoryPolicy
     public function viewAny(User $user): bool
     {
         // tout le monde peut voir les catégories
-        return $user->role === 'admin' || $user->role == 'responsable_produits';
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class CategoryPolicy
     public function view(User $user, Category $category): bool
     {
         // tout le monde peut voir une catégorie
-        return $user->role === 'admin' || $user->role == 'responsable_produits';
+        return true;
     }
 
     /**
@@ -43,7 +43,7 @@ class CategoryPolicy
     public function update(User $user, Category $category): Response
     {
         // seul un admin peut modifier une catégorie
-        return $user->role === 'admin' || $user->role == 'responsable_produits'
+        return $user->role === 'admin'
             ? Response::allow()
             : Response::deny('Vous devez être administrateur pour modifier une catégorie');
     }
@@ -54,7 +54,7 @@ class CategoryPolicy
     public function delete(User $user, Category $category): Response
     {
         // seul un admin peut supprimer une catégorie
-        return $user->role === 'admin' || $user->role == 'responsable_produits'
+        return $user->role === 'admin'
             ? Response::allow()
             : Response::deny('Vous devez être administrateur pour supprimer une catégorie');
     }
@@ -65,7 +65,7 @@ class CategoryPolicy
     public function restore(User $user, Category $category): Response
     {
         // seul un admin peut restaurer une catégorie
-        return $user->role === 'admin' || $user->role == 'responsable_produits'
+        return $user->role === 'admin'
             ? Response::allow()
             : Response::deny('Vous devez être administrateur pour restaurer une catégorie');
     }
@@ -76,6 +76,6 @@ class CategoryPolicy
     public function forceDelete(User $user, Category $category): bool
     {
         // seul un admin peut supprimer définitivement une catégorie
-        return $user->role === 'admin' || $user->role == 'responsable_produits';
+        return $user->role === 'admin';
     }
 }
