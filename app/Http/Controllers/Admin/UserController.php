@@ -13,6 +13,19 @@ class UserController extends Controller
     {
         $this->authorizeResource(User::class, 'user');
     }
+
+    private function extractData (User $user, UserFormRequest $request):array {
+        $data = $request->validated();
+        $image = $request->validated('image');
+        if ($image === null || $image->getError()) {
+            return $data;
+        }
+        if ($user->image !== null) {
+            Storage::disk('public')->delete($user->imageUrl());
+        }
+        $data['image'] = $image->store('users', 'public');
+        return $data;
+    }
     /**
      * Display a listing of the resource.
      */
