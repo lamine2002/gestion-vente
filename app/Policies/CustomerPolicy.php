@@ -13,15 +13,17 @@ class CustomerPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Customer $customer): bool
+    public function view(User $user, Customer $customer): Response
     {
-        //
+        return $user->role === 'admin' || $user->role === 'responsable_clients' || $user->role === 'responsable_commandes'
+            ? Response::allow()
+            : Response::deny('Vous n\'êtes pas autorisé à voir ce client');
     }
 
     /**
@@ -29,7 +31,7 @@ class CustomerPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->role === 'admin' || $user->role === 'responsable_clients';
     }
 
     /**
@@ -37,7 +39,7 @@ class CustomerPolicy
      */
     public function update(User $user, Customer $customer): bool
     {
-        //
+        return $user->role === 'admin' || $user->role === 'responsable_clients';
     }
 
     /**
@@ -45,7 +47,7 @@ class CustomerPolicy
      */
     public function delete(User $user, Customer $customer): bool
     {
-        //
+        return $user->role === 'admin' || $user->role === 'responsable_clients';
     }
 
     /**
@@ -53,7 +55,7 @@ class CustomerPolicy
      */
     public function restore(User $user, Customer $customer): bool
     {
-        //
+        return $user->role === 'admin' || $user->role === 'responsable_clients';
     }
 
     /**
@@ -61,6 +63,6 @@ class CustomerPolicy
      */
     public function forceDelete(User $user, Customer $customer): bool
     {
-        //
+        return $user->role === 'admin' || $user->role === 'responsable_clients';
     }
 }
