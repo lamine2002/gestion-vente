@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserFormRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -16,14 +17,14 @@ class UserController extends Controller
 
     private function extractData (User $user, UserFormRequest $request):array {
         $data = $request->validated();
-        $image = $request->validated('image');
-        if ($image === null || $image->getError()) {
+        $photo = $request->validated('photo');
+        if ($photo === null || $photo->getError()) {
             return $data;
         }
-        if ($user->image !== null) {
-            Storage::disk('public')->delete($user->imageUrl());
+        if ($user->photo !== null) {
+            Storage::disk('public')->delete($user->photo);
         }
-        $data['image'] = $image->store('users', 'public');
+        $data['photo'] = $photo->store('users', 'public');
         return $data;
     }
     /**
@@ -62,7 +63,7 @@ class UserController extends Controller
      */
     public function store(UserFormRequest $request)
     {
-        $user = \App\Models\User::create($request->validated());
+        $user = User::create($this->extractData(new User(), $request));
         return redirect()->route('admin.users.index')->with('success', "L'utilisateur $user->name a été créé avec succès");
     }
 
@@ -97,7 +98,7 @@ class UserController extends Controller
      */
     public function update(UserFormRequest $request, User $user)
     {
-        $user->update($request->validated());
+        $user->update($this->extractData($user, $request));
         return redirect()->route('admin.users.index')->with('success', "L'utilisateur $user->name a été modifié avec succès");
     }
 
@@ -107,7 +108,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        //supprimer l'image correspondante de l'utilisateur si elle existe
+        if ($user->photo !== null) {
+            Storage::disk('public')->delete($user->photo);
+        }
         $user->delete();
+
         return redirect()->route('admin.users.index')->with('success', "L'utilisateur $user->name a été supprimé avec succès");
     }
 }

@@ -48,6 +48,6 @@ class User extends Authenticatable
 
     public function imageUrl(): string
     {
-        return $this->image ? Storage::disk()->url($this->image) : asset('images/default.png');
+        return Storage::disk('public')->url($this->photo);
     }
 }
