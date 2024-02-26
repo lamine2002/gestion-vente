@@ -22,10 +22,11 @@ class CustomerFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'firstname' => ['required', 'string', 'max:255'],
-            'lastname' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
+            'firstname' => ['required', 'string', 'max:60'],
+            'lastname' => ['required', 'string', 'max:60'],
+            'address' => ['required', 'string', 'max:60'],
+            'phone' => ['required', 'string', 'max:60'],
+            'sex' => ['required', 'string', 'max:2'],
         ];
     }
 }
