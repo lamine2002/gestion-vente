@@ -20,14 +20,16 @@
             <tr>
                 <td class="px-6 py-4 whitespace-nowrap">{{ $category->name }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center space-x-2">
-                        <a href="{{ route('admin.categories.edit', ['category' => $category]) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editer</a>
-                        <form action="{{ route('admin.categories.destroy', $category) }}" method="post">
-                            @csrf
-                            @method('delete')
-                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Supprimer</button>
-                        </form>
-                    </div>
+                    @can('update', $category)
+                        <div class="flex items-center space-x-2">
+                            <a href="{{ route('admin.categories.edit', ['category' => $category]) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editer</a>
+                            <form action="{{ route('admin.categories.destroy', $category) }}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Supprimer</button>
+                            </form>
+                        </div>
+                    @endcan
                 </td>
             </tr>
         @endforeach
