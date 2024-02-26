@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
+            {{ __('Information du Profil') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Modifier les informations de votre profil et votre email.") }}
         </p>
     </header>
 
@@ -13,9 +13,34 @@
         @csrf
     </form>
 
+
+    {{-- Afficher l'images de l'utilisateur et ajouter des boutons pour modifier et supprimer l'image       --}}
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+
+        <div class="flex items-center gap-4">
+            <div class="flex-shrink-0">
+                <img class="h-48 w-48 rounded-full" src="{{ $user->imageUrl() }}" alt="{{ $user->name }}" />
+            </div>
+
+            <div class="flex items center gap-4">
+                <x-secondary-button type="button" wire:click="$set('showingProfilePhotoForm', true)">
+                    {{ __('Modifier Photo') }}
+                </x-secondary-button>
+
+                @if ($user->photo)
+                    <x-secondary-button type="button" wire:click="deleteProfilePhoto">
+                        {{ __('Supprimer Photo') }}
+                    </x-secondary-button>
+                @endif
+            </div>
+        </div>
+    </form>
+
+
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
+
 
         <div>
             <x-input-label for="name" :value="__('Name')" />

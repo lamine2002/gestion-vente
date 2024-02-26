@@ -39,8 +39,8 @@
                 Image
             </label>
             <div class="mt-1 flex items-center">
-                <span class="inline-block h-12 w-12 overflow-hidden rounded-full">
-                    <img class="h-12 w-12 rounded-full" src="{{ $user->photo ? $user->imageUrl() : asset('images/default.png') }}" alt="">
+                <span class="inline-block h-48 w-48 overflow-hidden rounded-full">
+                    <img class="h-48 w-48 rounded-full" src="{{ $user->photo ? $user->imageUrl() : asset('images/default.png') }}" alt="">
                 </span>
                 <input type="file" name="photo" id="image" class="ml-5 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>

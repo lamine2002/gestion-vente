@@ -18,9 +18,11 @@ class UserPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, User $model): bool
+    public function view(User $user, User $model): Response
     {
-        return $user->role === 'admin' || $user->id === $model->id;
+        return $user->role === 'admin' || $user->id === $model->id
+            ? Response::allow()
+            : Response::deny('Vous n\'êtes pas autorisé à voir cet utilisateur.');
     }
 
     /**
@@ -36,17 +38,21 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, User $model): bool
+    public function update(User $user, User $model): Response
     {
-        return $user->role === 'admin' || $user->id === $model->id;
+        return $user->role === 'admin' || $user->id === $model->id
+            ? Response::allow()
+            : Response::deny('Vous n\'êtes pas autorisé à modifier cet utilisateur.');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, User $model): bool
+    public function delete(User $user, User $model): Response
     {
-        return $user->role === 'admin';
+        return $user->role === 'admin'
+            ? Response::allow()
+            : Response::deny('Seul un administrateur peut supprimer un utilisateur.');
     }
 
     /**
