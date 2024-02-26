@@ -14,34 +14,33 @@
     </form>
 
 
-    {{-- Afficher l'images de l'utilisateur et ajouter des boutons pour modifier et supprimer l'image       --}}
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
 
+
+
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+        @csrf
+        @method('patch')
+
+        {{-- Afficher l'images de l'utilisateur et ajouter un bouton pour modifier l'image       --}}
         <div class="flex items-center gap-4">
             <div class="flex-shrink-0">
                 <img class="h-48 w-48 rounded-full" src="{{ $user->imageUrl() }}" alt="{{ $user->name }}" />
             </div>
 
-            <div class="flex items center gap-4">
-                <x-secondary-button type="button" wire:click="$set('showingProfilePhotoForm', true)">
-                    {{ __('Modifier Photo') }}
-                </x-secondary-button>
-
-                @if ($user->photo)
-                    <x-secondary-button type="button" wire:click="deleteProfilePhoto">
-                        {{ __('Supprimer Photo') }}
-                    </x-secondary-button>
-                @endif
-            </div>
+            <label class="block">
+                <span class="sr-only">Modifier la Photo</span>
+                <input type="file" class="block w-full text-sm text-gray-500
+                  file:me-4 file:py-2 file:px-4
+                  file:rounded-lg file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-blue-600 file:text-white
+                  hover:file:bg-blue-700
+                  file:disabled:opacity-50 file:disabled:pointer-events-none
+                  dark:file:bg-blue-500
+                  dark:hover:file:bg-blue-400
+                " name="photo">
+            </label>
         </div>
-    </form>
-
-
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
-        @csrf
-        @method('patch')
-
-
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
