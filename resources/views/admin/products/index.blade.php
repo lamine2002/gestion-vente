@@ -27,11 +27,11 @@
                     <td class="px-4 py-3">{{ $product->price }}</td>
                     <td class="px-4 py-3">{{ $product->category->name }}</td>
                     <td class="px-4 py-3">
-                        <a href="{{ route('admin.products.edit', $product) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Modifier</a>
+                        <a href="{{ route('admin.products.edit', $product) }}" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
                         <form class="inline-block" action="{{ route('admin.products.destroy', $product) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Supprimer</button>
+                            <button type="submit" class="text-red-600 hover:text-red-900 ml-4">Supprimer</button>
                         </form>
                     </td>
                 </tr>

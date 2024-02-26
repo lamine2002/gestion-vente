@@ -10,6 +10,10 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
+                    @if(request()->routeIs('admin.dashboard'))
+                        <div>{{ Auth::user()->role }}</div>
+                    @endif
+
                     @include('share.flash')
                     <br>
                     @yield('content')

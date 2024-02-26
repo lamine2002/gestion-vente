@@ -25,25 +25,25 @@
                     {{-- creation du lien pour admin.products.index                    --}}
                     @can(['create'], App\Models\Product::class)
                         <x-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.index')">
-                            {{ __('Products') }}
+                            {{ __('Produits') }}
                         </x-nav-link>
                     @endcan
                     {{-- creation du lien pour admin.orders.index                    --}}
                     @can(['create'], App\Models\Order::class)
                         <x-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.index')">
-                            {{ __('Orders') }}
+                            {{ __('Commandes') }}
                         </x-nav-link>
                     @endcan
                     {{-- creation du lien pour admin.customers.index                    --}}
                     @can(['create'], App\Models\Customer::class)
                         <x-nav-link :href="route('admin.customers.index')" :active="request()->routeIs('admin.customers.index')">
-                            {{ __('Customers') }}
+                            {{ __('Clients') }}
                         </x-nav-link>
                     @endcan
                     {{-- creation du lien pour admin.users.index                    --}}
                     @can(['create'], App\Models\User::class)
                         <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
-                            {{ __('Users') }}
+                            {{ __('Utilisateurs') }}
                         </x-nav-link>
                     @endcan
                 </div>

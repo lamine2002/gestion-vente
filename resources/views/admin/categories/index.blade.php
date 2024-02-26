@@ -22,11 +22,11 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                     @can('update', $category)
                         <div class="flex items-center space-x-2">
-                            <a href="{{ route('admin.categories.edit', ['category' => $category]) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editer</a>
+                            <a href="{{ route('admin.categories.edit', ['category' => $category]) }}" class="text-indigo-600 hover:text-indigo-900">Editer</a>
                             <form action="{{ route('admin.categories.destroy', $category) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Supprimer</button>
+                                <button type="submit" class="text-red-600 hover:text-red-900 ml-4">Supprimer</button>
                             </form>
                         </div>
                     @endcan
