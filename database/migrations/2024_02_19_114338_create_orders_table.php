@@ -14,11 +14,14 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers');
-            $table->string('status');
+            $table->foreignId('user_id')->constrained('users');
+            $table->string('status')->default('En attente');
             $table->string('payment');
             $table->string('numOrder');
             // date de la commande
-            $table->date('orderDate');
+            $table->date('orderDate')->useCurrent();
+            // useCurrent() permet de mettre la date actuelle par défaut
+            $table->string('total');
             $table->timestamps();
         });
     }

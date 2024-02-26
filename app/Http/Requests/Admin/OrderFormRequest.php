@@ -22,12 +22,13 @@ class OrderFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_id' => 'required|exists:customers,id',
+            'customer_id' => 'required|integer',
+            'user_id' => 'required|integer',
             'status' => 'required|string',
             'payment' => 'required|string',
             'numOrder' => 'required|string',
             'orderDate' => 'required|date',
-            'products' => 'required|array',
+            'total' => 'required|string',
         ];
     }
 }
