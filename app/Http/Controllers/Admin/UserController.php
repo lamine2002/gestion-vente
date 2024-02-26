@@ -33,7 +33,13 @@ class UserController extends Controller
         return view('admin.users.form',
             [
                 'user' => new \App\Models\User(),
-//                'roles' => \App\Models\User::ROLES
+                'roles' => [
+                    'admin' => 'Administrateur',
+                    'user' => 'Utilisateur',
+                    'responsable_clients' => 'Responsable clients',
+                    'responsable_commandes' => 'Responsable commandes',
+                    'responsable_produits' => 'Responsable produits'
+                ]
             ]
         );
     }
@@ -63,6 +69,13 @@ class UserController extends Controller
         return view('admin.users.form',
             [
                 'user' => $user,
+                'roles' => [
+                    'admin' => 'Administrateur',
+                    'user' => 'Utilisateur Standard',
+                    'responsable_clients' => 'Responsable clients',
+                    'responsable_commandes' => 'Responsable commandes',
+                    'responsable_produits' => 'Responsable produits'
+                ]
             ]);
     }
 
