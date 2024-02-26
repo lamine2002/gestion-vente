@@ -13,13 +13,37 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     {{-- creation du lien pour admin.categories.index             --}}
                     @can(['create'], App\Models\Category::class)
                         <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
                             {{ __('Categories') }}
+                        </x-nav-link>
+                    @endcan
+                    {{-- creation du lien pour admin.products.index                    --}}
+                    @can(['create'], App\Models\Product::class)
+                        <x-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.index')">
+                            {{ __('Products') }}
+                        </x-nav-link>
+                    @endcan
+                    {{-- creation du lien pour admin.orders.index                    --}}
+                    @can(['create'], App\Models\Order::class)
+                        <x-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.index')">
+                            {{ __('Orders') }}
+                        </x-nav-link>
+                    @endcan
+                    {{-- creation du lien pour admin.customers.index                    --}}
+                    @can(['create'], App\Models\Customer::class)
+                        <x-nav-link :href="route('admin.customers.index')" :active="request()->routeIs('admin.customers.index')">
+                            {{ __('Customers') }}
+                        </x-nav-link>
+                    @endcan
+                    {{-- creation du lien pour admin.users.index                    --}}
+                    @can(['create'], App\Models\User::class)
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
+                            {{ __('Users') }}
                         </x-nav-link>
                     @endcan
                 </div>
