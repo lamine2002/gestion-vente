@@ -33,7 +33,8 @@ class OrderController extends Controller
         return view('admin.orders.form',
             [
                 'order' => new \App\Models\Order(),
-                'customers' => \App\Models\Customer::pluck('name', 'id'),
+                'customers' => \App\Models\Customer::pluck('firstname', 'id'),
+                'products' => \App\Models\Product::pluck('name', 'id'),
                 'users' => \App\Models\User::pluck('name', 'id')
             ]
         );
@@ -45,6 +46,8 @@ class OrderController extends Controller
     public function store(OrderFormRequest $request)
     {
         $order = \App\Models\Order::create($request->validated());
+        // synchroniser les produits et les quantités
+        $order->products()->sync($request->input('products'));
         return redirect()->route('admin.orders.index')->with('success', "La commande $order->numOrder a été créée avec succès");
     }
 
@@ -68,7 +71,8 @@ class OrderController extends Controller
         return view('admin.orders.form',
             [
                 'order' => $order,
-                'customers' => \App\Models\Customer::pluck('name', 'id'),
+                'customers' => \App\Models\Customer::pluck('firstname', 'id'),
+                'products' => \App\Models\Product::pluck('name', 'id'),
                 'users' => \App\Models\User::pluck('name', 'id')
             ]
         );
@@ -80,6 +84,8 @@ class OrderController extends Controller
     public function update(OrderFormRequest $request, Order $order)
     {
         $order->update($request->validated());
+        // synchroniser les produits et les quantités
+        $order->products()->sync($request->input('products'));
         return redirect()->route('admin.orders.index')->with('success', "La commande $order->numOrder a été modifiée avec succès");
     }
     /**
