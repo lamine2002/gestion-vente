@@ -10,69 +10,8 @@
             @method('PUT')
         @endif
 
-        <div class="mb-4">
-            <label for="customer_id" class="block font-medium text-sm text-gray-700">Client</label>
-            <select name="customer_id" id="customer_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                @foreach($customers as $customerId => $customerName)
-                    <option value="{{ $customerId }}" {{ old('customer_id', $order->customer_id) == $customerId ? 'selected' : '' }}>{{ $customerName }}</option>
-                @endforeach
-            </select>
-            @error('customer_id')
-            <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-            @enderror
-        </div>
 
-        <div class="mb-4">
-            <label for="user_id" class="block font-medium text-sm text-gray-700">Utilisateur</label>
-            <select name="user_id" id="user_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                @foreach($users as $userId => $userName)
-                    <option value="{{ $userId }}" {{ old('user_id', $order->user_id) == $userId ? 'selected' : '' }}>{{ $userName }}</option>
-                @endforeach
-            </select>
-            @error('user_id')
-            <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-            @enderror
-        </div>
 
-        <div class="mb-4">
-            <label for="status" class="block font-medium text-sm text-gray-700">Statut</label>
-            <input type="text" name="status" id="status" value="{{ old('status', $order->status) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            @error('status')
-            <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div class="mb-4">
-            <label for="payment" class="block font-medium text-sm text-gray-700">Paiement</label>
-            <input type="text" name="payment" id="payment" value="{{ old('payment', $order->payment) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            @error('payment')
-            <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div class="mb-4">
-            <label for="numOrder" class="block font-medium text-sm text-gray-700">Numéro de commande</label>
-            <input type="text" name="numOrder" id="numOrder" value="{{ old('numOrder', $order->numOrder) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            @error('numOrder')
-            <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div class="mb-4">
-            <label for="orderDate" class="block font-medium text-sm text-gray-700">Date de commande</label>
-            <input type="date" name="orderDate" id="orderDate" value="{{ old('orderDate', $order->orderDate) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            @error('orderDate')
-            <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div class="mb-4">
-            <label for="total" class="block font-medium text-sm text-gray-700">Total</label>
-            <input type="text" name="total" id="total" value="{{ old('total', $order->total) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            @error('total')
-            <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-            @enderror
-        </div>
 
         <div id="products-list">
             <div class="mb-4">

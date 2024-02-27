@@ -34,7 +34,7 @@ class OrderController extends Controller
             [
                 'order' => new \App\Models\Order(),
                 'customers' => \App\Models\Customer::all('firstname', 'lastname', 'address', 'id'),
-                'products' => \App\Models\Product::all('name', 'price', 'quantity', 'id'),
+                'products' => \App\Models\Product::all('name', 'price', 'stock', 'id'),
                 'users' => \App\Models\User::pluck('name', 'id')
             ]
         );
@@ -72,7 +72,7 @@ class OrderController extends Controller
             [
                 'order' => $order,
                 'customers' => \App\Models\Customer::all('firstname', 'lastname', 'address', 'id'),
-                'products' => \App\Models\Product::all('name', 'price', 'quantity', 'id'),
+                'products' => \App\Models\Product::all('name', 'price', 'stock', 'id'),
                 'users' => \App\Models\User::pluck('name', 'id')
             ]
         );
