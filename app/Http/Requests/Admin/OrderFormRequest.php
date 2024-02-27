@@ -23,7 +23,7 @@ class OrderFormRequest extends FormRequest
     {
         return [
             'customer_id' => 'required|integer',
-            'user_id' => 'required|integer',
+            'user_id' => 'integer',
             'status' => 'required|string',
             'payment' => 'required|string',
             'numOrder' => 'required|string',
