@@ -11,9 +11,11 @@ class OrderPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user): Response
     {
-        return true;
+        return $user->role === 'admin' || $user->role === 'responsable_commandes'
+            ? Response::allow()
+            : Response::deny('Vous n\'avez pas les droits pour accéder à cette ressource.');
     }
 
     /**
@@ -21,7 +23,7 @@ class OrderPolicy
      */
     public function view(User $user, Order $order): bool
     {
-        return true;
+        return $user->role === 'admin' || $user->role === 'responsable_commandes' || $user->id === $order->user_id;
     }
 
     /**
@@ -37,7 +39,7 @@ class OrderPolicy
      */
     public function update(User $user, Order $order): bool
     {
-        return true;
+        return $user->role === 'admin' || $user->role === 'responsable_commandes' || ($user->id === $order->user_id && $order->status === 'En attente');
     }
 
     /**
@@ -45,7 +47,7 @@ class OrderPolicy
      */
     public function delete(User $user, Order $order): bool
     {
-        return true;
+        return $user->role === 'admin' || $user->role === 'responsable_commandes' || ($user->id === $order->user_id && $order->status === 'En attente');
     }
 
     /**
@@ -53,7 +55,7 @@ class OrderPolicy
      */
     public function restore(User $user, Order $order): bool
     {
-        return true;
+        return $user->role === 'admin' || $user->role === 'responsable_commandes';
     }
 
     /**
@@ -61,6 +63,6 @@ class OrderPolicy
      */
     public function forceDelete(User $user, Order $order): bool
     {
-        return true;
+        return $user->role === 'admin' || $user->role === 'responsable_commandes';
     }
 }
