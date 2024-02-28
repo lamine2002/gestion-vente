@@ -45,9 +45,20 @@ class OrderController extends Controller
      */
     public function store(OrderFormRequest $request)
     {
-        $order = \App\Models\Order::create($request->validated());
+        dd($request->validated());
+        $order = \App\Models\Order::create(
+            [
+                'customer_id' => $request->input('customer_id'),
+                'user_id' => $request->input('user_id'),
+                'status' => $request->input('status'),
+                'payment' => $request->input('payment'),
+                'numOrder' => $request->input('numOrder'),
+                'orderDate' => $request->input('orderDate'),
+                'total' => $request->input('total')
+            ]
+        );
         // synchroniser les produits et les quantités
-        $order->products()->sync($request->input('products'));
+        $order->products()->attach($request->input('products'), ['quantity' => $request->input('quantities')]);
         return redirect()->route('admin.orders.index')->with('success', "La commande $order->numOrder a été créée avec succès");
     }
 

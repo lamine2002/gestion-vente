@@ -68,13 +68,8 @@
 
             <div class="px-3 py-2 w-1/2">
                 <label for="user_id" class="block font-medium text-sm text-gray-700">Commande faite par </label>
-                <select name="user_id" id="user_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" >
-                    <option value="">Sélectionner un utilisateur</option>
-                    @foreach($users as $k => $v)
-                    {{-- si un Cree une nouvelle commande qu'on prenne l'utilisateur en cour et si on modifie une commande qu'on selectionne l'utilisateur qui a passe la commande                       --}}
-                        <option value="{{ $order->exists ? $order->user_id : $user->id }}" {{ old('user_id', $order->user_id) == $k ? 'selected' : '' }}>{{ $v }}</option>
-                    @endforeach
-                </select>
+                <input type="text" name="user_name" id="user_name" value="{{ $order->exits ? \App\Models\User::find($order->user_id)->name: $user->name }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                <input type="text" name="user_id" id="user_id" value="{{ $order->exits ? \App\Models\User::find($order->user_id)->id: $user->id }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 hidden" readonly>
                 @error('user_id')
                 <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
                 @enderror
@@ -109,6 +104,39 @@
         </div>
 
         {{-- Ajout, Modification dans le tableau de produits commandes       --}}
+        <div class="flex justify-between mb-4">
+            <div class="px-3 py-2 w-1/3">
+                <label for="product1" class="block font
+                -medium text-sm text-gray-700">Produit</label>
+                <select name="product1" id="product1" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <option value="">Sélectionner un produit</option>
+                    @foreach($products as $product)
+                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                    @endforeach
+                </select>
+                @error('product1')
+                <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            {{-- Quantite disponible           --}}
+            <div class="px-3 py-2 w-1/3">
+                <label for="quantity1" class="block font
+                -medium text-sm text-gray-700">Quantité disponible</label>
+                <input type="number" name="quantity1" id="quantity1" value="{{ old('quantity1') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                @error('quantity1')
+                <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="px-3 py-2 w-1/3">
+                <label for="quantity1" class="block font
+                -medium text-sm text-gray-700">Quantité commandé</label>
+                <input type="number" min="1" max="" name="quantity" id="quantity1" value="{{ old('quantity') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                @error('quantity')
+                <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
 
         <div class="mb-4 flex justify-center">
             <button type="button" onclick="addProductRow()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4">Ajouter Produit</button>
@@ -193,9 +221,11 @@
 
         let currentCustomerSelected = customerSelect.value;
         // console.log(currentCustomerSelected);
-        let currentSelectedCustomer = customers.find(customer => customer.id === parseInt(currentCustomerSelected));
-        customerAddress.value = currentSelectedCustomer.address;
-        customerTel.value = currentSelectedCustomer.phone;
+        if (currentCustomerSelected) {
+            const selectedCustomer = customers.find(customer => customer.id === parseInt(currentCustomerSelected));
+            customerAddress.value = selectedCustomer.address;
+            customerTel.value = selectedCustomer.phone;
+        }
 
         customerSelect.addEventListener('change', function() {
             const selectedCustomer = customers.find(customer => customer.id === parseInt(this.value));
