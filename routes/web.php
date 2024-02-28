@@ -27,6 +27,9 @@ Route::get('/', function () {
 //            'email' => 'diallo@gmail.com',
 //            'password' => \Illuminate\Support\Facades\Hash::make('passer')
 //        ]);
+
+//    $order = \App\Models\Order::find(1);
+//    dd($order->getDetailsAttribute());
     return view('welcome');
 });
 

@@ -71,8 +71,8 @@ class OrderController extends Controller
         return view('admin.orders.form',
             [
                 'order' => $order,
-                'customers' => \App\Models\Customer::all('firstname', 'lastname', 'address', 'id'),
-                'products' => \App\Models\Product::all('name', 'price', 'stock','phone', 'id'),
+                'customers' => \App\Models\Customer::all('firstname', 'lastname', 'address','phone', 'id'),
+                'products' => \App\Models\Product::all('name', 'price', 'stock', 'id'),
                 'users' => \App\Models\User::pluck('name', 'id')
             ]
         );
@@ -83,9 +83,23 @@ class OrderController extends Controller
      */
     public function update(OrderFormRequest $request, Order $order)
     {
-        $order->update($request->validated());
+//        dd($request->validated());
+        $order->update(
+            [
+                'customer_id' => $request->input('customer_id'),
+                'user_id' => $request->input('user_id'),
+                'status' => $request->input('status'),
+                'payment' => $request->input('payment'),
+                'numOrder' => $request->input('numOrder'),
+                'orderDate' => $request->input('orderDate'),
+                'total' => $request->input('total')
+            ]
+        );
         // synchroniser les produits et les quantités
-        $order->products()->sync($request->input('products'));
+        foreach ($request->input('products') as $key => $product) {
+            $order->products()->updateExistingPivot($product, ['quantity' => $request->input('quantities')[$key]]);
+        }
+
         return redirect()->route('admin.orders.index')->with('success', "La commande $order->numOrder a été modifiée avec succès");
     }
     /**
