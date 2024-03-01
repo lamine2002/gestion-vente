@@ -105,11 +105,11 @@
 
         {{-- Ajout, Modification dans le tableau de produits commandes       --}}
         <div class="flex justify-between mb-4">
-            <div class="px-3 py-2 w-1/3">
+            <div class="px-2 py-2 w-1/5">
                 <label for="product1" class="block font
                 -medium text-sm text-gray-700">Produit</label>
                 <select name="product1" id="product1" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <option value="">Sélectionner un produit</option>
+                    <option value="">Choisir un produit</option>
                     @foreach($products as $product)
                         <option value="{{ $product->id }}">{{ $product->name }}</option>
                     @endforeach
@@ -119,29 +119,46 @@
                 @enderror
             </div>
             {{-- Quantite disponible           --}}
-            <div class="px-3 py-2 w-1/3">
-                <label for="quantity1" class="block font
+            <div class="px-2 py-2 w-1/5">
+                <label for="quantityAvailable" class="block font
                 -medium text-sm text-gray-700">Quantité disponible</label>
-                <input type="number" name="quantity1" id="quantity1" value="{{ old('quantity1') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
-                @error('quantity1')
+                <input type="number" name="quantityAvailable" id="quantityAvailable" value="{{ old('quantityAvailable') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                @error('quantityAvailable')
                 <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
-            <div class="px-3 py-2 w-1/3">
-                <label for="quantity1" class="block font
+            <div class="px-2 py-2 w-1/5">
+                <label for="quantityToOrder" class="block font
                 -medium text-sm text-gray-700">Quantité commandé</label>
-                <input type="number" min="1" max="" name="quantity" id="quantity1" value="{{ old('quantity') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                @error('quantity')
+                <input type="number" min="1" max="" name="quantityToOrder" id="quantityToOrder" value="{{ old('quantityToOrder') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                @error('quantityToOrder')
+                <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="px-2 py-2 w-1/5">
+                <label for="price" class="block font
+                -medium text-sm text-gray-700">Prix Produit</label>
+                <input type="text"  name="price" id="price" value="{{ old('price') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                @error('price')
+                <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="px-2 py-2 w-1/5">
+                <label for="totalLine" class="block font
+                -medium text-sm text-gray-700">Total</label>
+                <input type="text"  name="totalLine" id="totalLine" value="{{ old('totalLine') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                @error('totalLine')
                 <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
                 @enderror
             </div>
         </div>
 
         <div class="mb-4 flex justify-center">
-            <button type="button" onclick="addProductRow()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4">Ajouter Produit</button>
-            <button type="button" onclick="/*clearAddproductField()*/" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Annuler</button>
-
+                <button type="button" id="addProduct" onclick="addProductRow()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4">Ajouter Produit</button>
+                <button type="button" onclick="clearAddproductField()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Annuler</button>
         </div>
 
         {{-- tableau de produits a achetes et leur quantitte       --}}
@@ -160,7 +177,6 @@
                 <tbody class="divide-y">
                     @if($order->exists)
                         @foreach($order->products as $product)
-                            <div id="products-list">
                                 <tr class="text-sm text-gray-500" >
                                     <td class="px-4 py-3">
                                         <input type="text" name="products[]" value="{{ $product->id }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 hidden" >
@@ -176,15 +192,15 @@
                                         <input type="text" name="lineTotal[]" value="" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
                                     </td>
                                     <td class="px-4 py-3 ">
-                                        <a href="#" class="text-red-500 hover:text-red-700 mr-2">Supprimer</a>
-                                        <a href="#" class="text-blue-500 hover:text-blue-700">Modifier</a>
+                                        <a href="#" class="text-red-500 hover:text-red-700 mr-2" onclick="deleteProductRow(this)">Supprimer</a>
+                                        <a href="#" class="text-blue-500 hover:text-blue-700" onclick="editProductRow(this)">Modifier</a>
                                     </td>
                                 </tr>
-                            </div>
                         @endforeach
                     @endif
+
                             {{--  Gerer le montant total                            --}}
-                    <tr class="text-sm text-gray-500" id = "products-list">
+                    <tr class="text-sm text-gray-500">
                         <td class="px-4 py-3" colspan="3"></td>
                         <td class="px-4 py-3">Montant Total</td>
                         <td class="px-4 py-3">
@@ -214,6 +230,8 @@
     <script>
         const customers = @json($customers);
         const products = @json($products);
+        // console.log(customers);
+        console.log(products);
         const customerSelect = document.getElementById('customer_id');
         const customerAddress = document.getElementById('customerAddress');
         const customerTel = document.getElementById('customerTel');
@@ -233,16 +251,114 @@
             customerTel.value = selectedCustomer.phone;
         });
 
+        // Partie pour ajouter un produit dans la commande
+        const productSelect = document.getElementById('product1');
+        const quantityInput = document.getElementById('quantityAvailable');
+        const priceInput = document.getElementById('price');
+        const totalInput = document.getElementById('totalLine');
+        const quantityToOrder = document.getElementById('quantityToOrder');
+
+        if (productSelect.value) {
+            const selectedProduct = products.find(product => product.id === parseInt(productSelect.value));
+            quantityInput.value = selectedProduct.stock;
+            priceInput.value = selectedProduct.price;
+
+
+        }
+
+        quantityToOrder.addEventListener('change', function() {
+            if (parseInt(this.value) > parseInt(quantityInput.value)) {
+                this.value = quantityInput.value;
+            }else if (parseInt(this.value) <= 0) {
+                this.value = 1;
+            } else {
+                totalInput.value = parseInt(this.value) * parseInt(priceInput.value);
+            }
+
+        });
+
+
+        productSelect.addEventListener('change', function() {
+            const selectedProduct = products.find(product => product.id === parseInt(this.value));
+            quantityInput.value = selectedProduct.stock;
+            priceInput.value = selectedProduct.price;
+        });
+
         function clearAddproductField() {
-            const productSelect = document.getElementById('product1');
-            const quantityInput = document.getElementById('quantity1');
             productSelect.value = '';
             quantityInput.value = '';
+            priceInput.value = '';
+            totalInput.value = '';
+            quantityToOrder.value = '';
         }
 
 
         function addProductRow() {
+            const productSelect = document.getElementById('product1');
+            const quantityInput = document.getElementById('quantityAvailable');
+            const priceInput = document.getElementById('price');
+            const totalInput = document.getElementById('totalLine');
+            const quantityToOrder = document.getElementById('quantityToOrder');
+            const tbody = document.querySelector('tbody');
+            const product = productSelect.options[productSelect.selectedIndex].text;
+            const quantity = quantityToOrder.value;
+            const price = priceInput.value;
+            const total = totalInput.value;
+            const row = document.createElement('tr');
+            row.classList.add('text-sm', 'text-gray-500');
+            row.innerHTML = `
+                <td class="px-4 py-3">
+                    <input type="text" name="products[]" value="${productSelect.value}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 hidden" >
+                    <input type="text" value="${product}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                </td>
+                <td class="px-4 py-3">
+                    <input type="text" name="quantities[]" value="${quantity}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                </td>
+                <td class="px-4 py-3">
+                    <input type="text" name="prices[]" value="${price}" class="mt-1 block
+                    w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                </td>
+                <td class="px-4 py-3">
+                    <input type="text" name="lineTotal[]" value="${total}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                </td>
+                <td class="px-4 py-3 ">
+                    <a href="#" class="text-red-500 hover:text-red-700 mr-2">Supprimer</a>
+                    <a href="#" class="text-blue-500 hover:text-blue-700">Modifier</a>
+                </td>
+            `;
+
+            // ajouter la ligne dans le tableau avant la derniere ligne
+            tbody.insertBefore(row, tbody.lastElementChild);
+            calculateTotal();
+            clearAddproductField();
+
         }
+
+        // supprimer une ligne de produit
+        function deleteProductRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+            calculateTotal();
+        }
+
+        // modifier une ligne de produit
+        function editProductRow(button) {
+            const row = button.closest('tr');
+            const product = row.querySelector('input[name="products[]"]').value;
+            const quantity = row.querySelector('input[name="quantities[]"]').value;
+            const price = row.querySelector('input[name="prices[]"]').value;
+            const total = row.querySelector('input[name="lineTotal[]"]').value;
+            productSelect.value = product;
+            quantityInput.value = quantity;
+            priceInput.value = price;
+            totalInput.value = total;
+            quantityToOrder.value = quantity;
+
+            row.remove();
+            calculateTotal();
+        }
+
+
 
         // gerer dynamiquement le montant total
         function calculateTotal() {

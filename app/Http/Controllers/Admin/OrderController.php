@@ -45,7 +45,7 @@ class OrderController extends Controller
      */
     public function store(OrderFormRequest $request)
     {
-        dd($request->validated());
+//        dd($request->validated());
         $order = \App\Models\Order::create(
             [
                 'customer_id' => $request->input('customer_id'),
@@ -58,7 +58,9 @@ class OrderController extends Controller
             ]
         );
         // synchroniser les produits et les quantités
-        $order->products()->attach($request->input('products'), ['quantity' => $request->input('quantities')]);
+        foreach ($request->input('products') as $key => $product) {
+            $order->products()->attach($product, ['quantity' => $request->input('quantities')[$key]]);
+        }
         return redirect()->route('admin.orders.index')->with('success', "La commande $order->numOrder a été créée avec succès");
     }
 
