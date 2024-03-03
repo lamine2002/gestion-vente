@@ -21,7 +21,7 @@ class CustomerPolicy
      */
     public function view(User $user, Customer $customer): Response
     {
-        return $user->role === 'admin' || $user->role === 'responsable_clients' || $user->role === 'responsable_commandes'
+        return $user->role === 'admin' || $user->role === 'responsable_clients' || $user->role === 'responsable_commandes' || $user->role === 'user'
             ? Response::allow()
             : Response::deny('Vous n\'êtes pas autorisé à voir ce client');
     }
@@ -31,7 +31,7 @@ class CustomerPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role === 'admin' || $user->role === 'responsable_clients';
+        return $user->role === 'admin' || $user->role === 'responsable_clients' || $user->role === 'responsable_commandes' || $user->role === 'user';
     }
 
     /**
