@@ -57,9 +57,20 @@ class OrderController extends Controller
                 'total' => $request->input('total')
             ]
         );
+        $orderStatus = $request->input('status');
+        $OrderValidate = $orderStatus === 'Terminée';
         // synchroniser les produits et les quantités
         foreach ($request->input('products') as $key => $product) {
             $order->products()->attach($product, ['quantity' => $request->input('quantities')[$key]]);
+            // mise à jour du stock
+            if ($OrderValidate){
+                $productUpdate = \App\Models\Product::find($product);
+                if ($productUpdate) {
+                    // mise à jour du stock
+                    $newStock = $productUpdate->stock - $request->input('quantities')[$key];
+                    $productUpdate->update(['stock' => $newStock]);
+                }
+            }
         }
         return redirect()->route('admin.orders.index')->with('success', "La commande $order->numOrder a été créée avec succès");
     }
@@ -108,9 +119,21 @@ class OrderController extends Controller
                 'total' => $request->input('total')
             ]
         );
+
+        $orderStatus = $request->input('status');
+        $OrderValidate = $orderStatus === 'Terminée';
         // synchroniser les produits et les quantités
         foreach ($request->input('products') as $key => $product) {
             $order->products()->updateExistingPivot($product, ['quantity' => $request->input('quantities')[$key]]);
+            // mise à jour du stock
+            if ($OrderValidate){
+                $productUpdate = \App\Models\Product::find($product);
+                if ($productUpdate) {
+                    // mise à jour du stock
+                    $newStock = $productUpdate->stock - $request->input('quantities')[$key];
+                    $productUpdate->update(['stock' => $newStock]);
+                }
+            }
         }
 
         return redirect()->route('admin.orders.index')->with('success', "La commande $order->numOrder a été modifiée avec succès");

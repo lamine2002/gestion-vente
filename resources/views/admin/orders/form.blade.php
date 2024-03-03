@@ -68,8 +68,8 @@
 
             <div class="px-3 py-2 w-1/2">
                 <label for="user_id" class="block font-medium text-sm text-gray-700">Commande faite par </label>
-                <input type="text" name="user_name" id="user_name" value="{{ $order->exits ? \App\Models\User::find($order->user_id)->name: $user->name }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
-                <input type="text" name="user_id" id="user_id" value="{{ $order->exits ? \App\Models\User::find($order->user_id)->id: $user->id }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 hidden" readonly>
+                <input type="text" name="user_name" id="user_name" value="{{ $order->exists ? \App\Models\User::find($order->user_id)->name: $user->name }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                <input type="text" name="user_id" id="user_id" value="{{ $order->exists ? \App\Models\User::find($order->user_id)->id: $user->id }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 hidden" readonly>
                 @error('user_id')
                 <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
                 @enderror
@@ -157,7 +157,10 @@
         </div>
 
         <div class="mb-4 flex justify-center">
+            <div>
                 <button type="button" id="addProduct" onclick="addProductRow()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4">Ajouter Produit</button>
+                <button type="button" id="editProduct" onclick="editProduct()" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4 hidden">Modifier Produit</button>
+            </div>
                 <button type="button" onclick="clearAddproductField()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Annuler</button>
         </div>
 
@@ -177,7 +180,7 @@
                 <tbody class="divide-y">
                     @if($order->exists)
                         @foreach($order->products as $product)
-                                <tr class="text-sm text-gray-500" >
+                                <tr class="text-sm text-gray-500" id="product[]">
                                     <td class="px-4 py-3">
                                         <input type="text" name="products[]" value="{{ $product->id }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 hidden" >
                                         <input type="text" value="{{ $product->name }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
@@ -306,6 +309,7 @@
             const total = totalInput.value;
             const row = document.createElement('tr');
             row.classList.add('text-sm', 'text-gray-500');
+            row.id = 'product[]';
             row.innerHTML = `
                 <td class="px-4 py-3">
                     <input type="text" name="products[]" value="${productSelect.value}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 hidden" >
@@ -326,6 +330,18 @@
                     <a href="#" class="text-blue-500 hover:text-blue-700">Modifier</a>
                 </td>
             `;
+            // avant d'ajouter la ligne dans le tableau, on verifie si le produit n'est pas deja dans le tableau
+            const products = document.querySelectorAll('input[name="products[]"]');
+            let productExist = false;
+            products.forEach(product => {
+                if (product.value === productSelect.value) {
+                    productExist = true;
+                }
+            });
+            if (productExist) {
+                alert('Ce produit est déjà dans la commande');
+                return;
+            }
 
             // ajouter la ligne dans le tableau avant la derniere ligne
             tbody.insertBefore(row, tbody.lastElementChild);
@@ -336,6 +352,10 @@
 
         // supprimer une ligne de produit
         function deleteProductRow(button) {
+            if (productSelect.value) {
+                alert('Veuillez annuler la modification ou l\'ajout  en cours avant de modifier une autre ligne');
+                return;
+            }
             const row = button.closest('tr');
             row.remove();
             calculateTotal();
@@ -343,19 +363,37 @@
 
         // modifier une ligne de produit
         function editProductRow(button) {
-            const row = button.closest('tr');
-            const product = row.querySelector('input[name="products[]"]').value;
-            const quantity = row.querySelector('input[name="quantities[]"]').value;
-            const price = row.querySelector('input[name="prices[]"]').value;
-            const total = row.querySelector('input[name="lineTotal[]"]').value;
-            productSelect.value = product;
-            quantityInput.value = quantity;
-            priceInput.value = price;
-            totalInput.value = total;
-            quantityToOrder.value = quantity;
+            if (productSelect.value) {
+                alert('Veuillez annuler la modification ou l\'ajout  en cours avant de modifier une autre ligne');
+                return;
+            }
 
-            row.remove();
-            calculateTotal();
+            // Cette fonction est appelée lorsqu'un utilisateur souhaite modifier une ligne de produit dans le tableau.
+            // Vous devez implémenter le code pour gérer la modification de la ligne sélectionnée.
+            // L'argument 'button' est le bouton sur lequel l'utilisateur a cliqué pour déclencher l'action.
+
+            // Afficher le bouton "Modifier Produit" et cacher le bouton "Ajouter Produit"
+            document.getElementById('addProduct').classList.add('hidden');
+            document.getElementById('editProduct').classList.remove('hidden');
+            // Récupérer la ligne parente du bouton
+            const row = button.closest('tr');
+
+            // Récupérer les éléments de la ligne
+            const productInput = row.querySelector('input[name="products[]"]');
+            const quantityInput = row.querySelector('input[name="quantities[]"]');
+
+            // Remplir les champs du formulaire avec les données de la ligne sélectionnée
+            document.getElementById('product1').value = productInput.value;
+            document.getElementById('quantityAvailable').value = products.find(product => product.id === parseInt(productInput.value)).stock;
+            document.getElementById('quantityToOrder').value = quantityInput.value;
+            document.getElementById('price').value = products.find(product => product.id === parseInt(productInput.value)).price;
+            document.getElementById('totalLine').value = parseInt(document.getElementById('quantityToOrder').value) * parseInt(document.getElementById('price').value);
+
+
+        }
+
+        function editProduct() {
+
         }
 
 
