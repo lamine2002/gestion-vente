@@ -124,7 +124,8 @@ class OrderController extends Controller
         $OrderValidate = $orderStatus === 'Terminée';
         // synchroniser les produits et les quantités
         foreach ($request->input('products') as $key => $product) {
-            $order->products()->updateExistingPivot($product, ['quantity' => $request->input('quantities')[$key]]);
+            $order->products()->syncWithoutDetaching([$product => ['quantity' => $request->input('quantities')[$key]]]);
+            // syncWithoutDetaching pour ne pas supprimer les produits qui ne sont pas dans la requête de la base de données
             // mise à jour du stock
             if ($OrderValidate){
                 $productUpdate = \App\Models\Product::find($product);

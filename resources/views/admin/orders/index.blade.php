@@ -15,7 +15,7 @@
                         <thead>
                             <tr>
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    ID
+                                    Numéro de commande
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Client
@@ -23,30 +23,45 @@
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Date
                                 </th>
+                                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Status
+                                </th>
+
                                 <th class="px-6 py-3 bg-gray-50"></th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($orders as $order)
-                                @can('update', $order)
+                                @can('view', $order)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-no-wrap">
-                                            <div class="text-sm leading-5 font-medium text-gray-900">{{ $order->id }}</div>
+                                            <div class="text-sm leading-5 font-medium text-gray-900">{{ $order->numOrder }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-no-wrap">
                                             <div class="text-sm leading-5 text-gray-900">{{ \App\Models\Customer::find($order->customer_id)->firstname.' '.\App\Models\Customer::find($order->customer_id)->lastname }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-no-wrap">
-                                            <div class="text-sm leading-5 text-gray-900">{{ $order->created_at }}</div>
+                                            <div class="text-sm leading-5 text-gray-900">
+                                                @if($order->created_at)
+                                                    {{ $order->created_at->format('d/m/Y à H:i') }}
+                                                @else
+                                                    Date de création non disponible
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-no-wrap">
+                                            <div class="text-sm leading-5 text-gray-900">{{ $order->status }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                                             <a href="{{ route('admin.orders.show', $order) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Voir</a>
-                                            <a href="{{ route('admin.orders.edit', $order) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Modifier</a>
-                                            <form class="inline-block" action="{{ route('admin.orders.destroy', $order) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette commande?');">
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <button type="submit" class="text-red-600 hover:text-red-900">Supprimer</button>
-                                            </form>
+                                            @can('update', $order)
+                                                <a href="{{ route('admin.orders.edit', $order) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Modifier</a>
+                                                <form class="inline-block" action="{{ route('admin.orders.destroy', $order) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette commande?');">
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                    <button type="submit" class="text-red-600 hover:text-red-900">Supprimer</button>
+                                                </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endcan
