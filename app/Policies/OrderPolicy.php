@@ -39,7 +39,7 @@ class OrderPolicy
      */
     public function update(User $user, Order $order): bool
     {
-        return $user->role === 'admin' || $user->role === 'responsable_commandes' || ($user->id === $order->user_id && $order->status === 'En attente');
+        return ($user->role === 'admin' || $user->role === 'responsable_commandes' || $user->id === $order->user_id) && $order->status === 'En attente';
     }
 
     /**
