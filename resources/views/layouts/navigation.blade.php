@@ -14,7 +14,11 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                        {{ __('Dashboard') }}
+                        @if(auth()->user()->role == 'admin')
+                            {{ __('Dashboard') }}
+                        @else
+                            {{ __('Accueil') }}
+                        @endif
                     </x-nav-link>
                     {{-- creation du lien pour admin.categories.index             --}}
                     @can(['create'], App\Models\Category::class)
