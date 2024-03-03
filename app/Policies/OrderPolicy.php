@@ -41,7 +41,7 @@ class OrderPolicy
      */
     public function update(User $user, Order $order): Response
     {
-        return ($user->role === 'admin' || $user->role === 'responsable_commandes' || $user->id === $order->user_id) && ($order->status !== 'Terminée' && $order->status !== 'Annulée')
+        return ($user->role === 'admin' || $user->role === 'responsable_commandes' || ($user->id === $order->user_id && $order->status !== 'En cours de traitement')) && ($order->status !== 'Terminée' && $order->status !== 'Annulée')
             ? Response::allow()
             : Response::deny('Vous n\'avez pas les droits pour modifier cette commande.');
     }
@@ -51,7 +51,7 @@ class OrderPolicy
      */
     public function delete(User $user, Order $order): Response
     {
-        return ($user->role === 'admin' || $user->role === 'responsable_commandes' || $user->id === $order->user_id) && ($order->status !== 'Terminée' && $order->status !== 'Annulée')
+        return ($user->role === 'admin' || $user->role === 'responsable_commandes' || ($user->id === $order->user_id && 'En cours de traitement')) && ($order->status !== 'Terminée' && $order->status !== 'Annulée')
             ? Response::allow()
             : Response::deny('Vous n\'avez pas les droits pour supprimer cette commande.');
     }
