@@ -13,7 +13,7 @@ class ProductPolicy
      */
     public function viewAny(User $user): Response
     {
-        return $user->role === 'admin' || $user->role == 'responsable_produits'
+        return $user->role === 'admin' || $user->role == 'responsable_produits' || $user->role == 'user' || $user->role == 'responsable_commandes' || $user->role == 'responsable_clients'
             ? Response::allow()
             : Response::deny('Vous n\'êtes pas autorisé à voir tous les produits');
     }
@@ -23,7 +23,7 @@ class ProductPolicy
      */
     public function view(User $user, Product $product): Response
     {
-        return $user->role === 'admin' || $user->role == 'responsable_produits'
+        return $user->role === 'admin' || $user->role == 'responsable_produits' || $user->role == 'user' || $user->role == 'responsable_commandes' || $user->role == 'responsable_clients'
             ? Response::allow()
             : Response::deny('Vous n\'êtes pas autorisé à voir ce produit');
     }
