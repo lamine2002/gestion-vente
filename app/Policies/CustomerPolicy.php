@@ -13,7 +13,7 @@ class CustomerPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->role === 'admin' || $user->role === 'responsable_clients' || $user->role === 'responsable_commandes' || $user->role === 'user';
     }
 
     /**

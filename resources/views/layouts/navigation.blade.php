@@ -21,31 +21,31 @@
                         @endif
                     </x-nav-link>
                     {{-- creation du lien pour admin.categories.index             --}}
-                    @can(['create'], App\Models\Category::class)
+                    @can(['viewAny'], App\Models\Category::class)
                         <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
                             {{ __('Categories') }}
                         </x-nav-link>
                     @endcan
                     {{-- creation du lien pour admin.products.index                    --}}
-                    @can(['create'], App\Models\Product::class)
+                    @can(['viewAny'], App\Models\Product::class)
                         <x-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.index')">
                             {{ __('Produits') }}
                         </x-nav-link>
                     @endcan
                     {{-- creation du lien pour admin.orders.index                    --}}
-                    @can(['create'], App\Models\Order::class)
+                    @can(['viewAny'], App\Models\Order::class)
                         <x-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.index')">
                             {{ __('Commandes') }}
                         </x-nav-link>
                     @endcan
                     {{-- creation du lien pour admin.customers.index                    --}}
-                    @can(['create'], App\Models\Customer::class)
+                    @can(['viewAny'], App\Models\Customer::class)
                         <x-nav-link :href="route('admin.customers.index')" :active="request()->routeIs('admin.customers.index')">
                             {{ __('Clients') }}
                         </x-nav-link>
                     @endcan
                     {{-- creation du lien pour admin.users.index                    --}}
-                    @can(['create'], App\Models\User::class)
+                    @can(['viewAny'], App\Models\User::class)
                         <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
                             {{ __('Utilisateurs') }}
                         </x-nav-link>

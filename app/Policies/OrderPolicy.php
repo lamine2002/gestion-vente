@@ -21,7 +21,7 @@ class OrderPolicy
      */
     public function view(User $user, Order $order): Response
     {
-        return $user->role === 'admin' || $user->role === 'responsable_commandes' || $user->id === $order->user_id
+        return $user->role === 'admin' || $user->role === 'responsable_commandes' || $user->id === $order->user_id || $user->role === 'responsable_clients'
             ? Response::allow()
             : Response::deny('Vous n\'avez pas les droits pour accéder à cette ressource.');
     }

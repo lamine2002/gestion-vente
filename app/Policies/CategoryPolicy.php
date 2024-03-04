@@ -14,7 +14,7 @@ class CategoryPolicy
     public function viewAny(User $user): bool
     {
         // tout le monde peut voir les catégories
-        return true;
+        return $user->role === 'admin' || $user->role === 'responsable_produits';
     }
 
     /**
