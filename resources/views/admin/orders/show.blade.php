@@ -7,7 +7,7 @@
         $status = [
             'En attente' => 'bg-yellow-200 text-yellow-600',
             'En cours de traitement' => 'bg-blue-200 text-blue-600',
-            'Expédiée' => 'bg-green-200 text-green-600',
+            'Terminée' => 'bg-green-200 text-green-600',
             'Annulée' => 'bg-red-200 text-red-600',
         ];
 
