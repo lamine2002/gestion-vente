@@ -15,6 +15,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'product_order')->withPivot('quantity');
+    }
+
     public function imageUrl(): string
     {
         return Storage::disk('public')->url($this->photo);

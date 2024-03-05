@@ -33,6 +33,7 @@
                     @can('update', $product)
                     <td class="px-4 py-3">
                         <a href="{{ route('admin.products.edit', $product) }}" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
+                        <a href="{{ route('admin.products.show', $product) }}" class="text-indigo-600 hover:text-indigo-900 ml-4">Voir</a>
                         <form class="inline-block" action="{{ route('admin.products.destroy', $product) }}" method="POST">
                             @csrf
                             @method('DELETE')
