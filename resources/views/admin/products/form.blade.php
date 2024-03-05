@@ -5,7 +5,7 @@
 @section('content')
 
     <form class="space-y-6" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}"
-          method="post">
+          method="post" enctype="multipart/form-data">
 
         @csrf
         @if($product->exists)
@@ -19,8 +19,24 @@
             @include('share.select', ['label' => 'Categorie', 'name' => 'category_id', 'options' => $categories, 'value' => old('category_id', $product->category_id)])
         </div>
         @include('share.input', ['label' => 'Description','type' =>'textarea', 'name' => 'description', 'value' => old('description', $product->description)])
-
         <div>
+            <label for="image" class="block text-sm font-medium text-gray-700">
+                Image
+            </label>
+            <div class="mt-1 flex items-center">
+                <span class="inline-block h-48 w-48 overflow-hidden rounded-full">
+                    <img class="h-48 w-48 rounded-full" src="{{ $product->photo ? $product->imageUrl() : asset('images/default.png') }}" alt="">
+                </span>
+                <input type="file" name="photo" id="image" class="ml-5 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            @error('image')
+            <div class="text-red-500 mt-1 text-sm">
+                {{ $message }}
+            </div>
+            @enderror
+        <div>
+
+        </div>
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 @if($product->exists)
                     Modifier
