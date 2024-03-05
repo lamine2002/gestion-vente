@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Customer;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,7 +47,14 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');
+        $customersCount = Customer::count();
+        $maleCustomersCount = Customer::where('sex', 'M')->count();
+        $femaleCustomersCount = Customer::where('sex', 'F')->count();
+        $productsCount = Product::count();
+        $ordersCount = \App\Models\Order::count();
+        return view('admin.dashboard',
+            compact('customersCount', 'maleCustomersCount', 'femaleCustomersCount', 'productsCount', 'ordersCount')
+        );
     })->name('dashboard');
 
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
