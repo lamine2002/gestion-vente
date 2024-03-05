@@ -101,6 +101,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        //supprimer l'image correspondante de l'utilisateur si elle existe
+        if ($product->photo !== null) {
+            Storage::disk('public')->delete($product->photo);
+        }
         $product->delete();
         return redirect()->route('admin.products.index')->with('success', "Le produit $product->name a été supprimé avec succès");
     }
