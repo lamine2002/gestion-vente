@@ -91,7 +91,7 @@ class ProductController extends Controller
      */
     public function update(ProductFormRequest $request, Product $product)
     {
-        $product->update($request->validated());
+        $product->update($this->extractData($product, $request));
         return redirect()->route('admin.products.index')->with('success', "Le produit $product->name a été modifié avec succès");
     }
 
