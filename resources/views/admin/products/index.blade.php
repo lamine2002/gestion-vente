@@ -9,7 +9,7 @@
         {{-- div pour les bouton d'export et d'import       --}}
         <div class="flex justify-between">
             <a href="{{ route('products.export') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Exporter</a>
-{{--            <a href="{{ route('admin.products.import') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">Importer</a>--}}
+            <a href="{{ route('products.import') }}" class="bg-teal-300 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">Importer</a>
         </div>
     </div>
     @endcan

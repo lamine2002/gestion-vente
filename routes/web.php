@@ -67,6 +67,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 Route::get('/products/export', [\App\Http\Controllers\Admin\ProductController::class, 'export'])->name('products.export')->middleware('auth');
 // route vers le formulaire d'importation
 Route::get('/products/import', [\App\Http\Controllers\Admin\ProductController::class, 'import'])->name('products.import')->middleware('auth');
+// route pour l'importation
+Route::post('/products/import', [\App\Http\Controllers\Admin\ProductController::class, 'importData'])->name('products.importData')->middleware('auth');
 
 
 require __DIR__.'/auth.php';

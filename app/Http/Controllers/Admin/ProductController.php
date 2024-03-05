@@ -116,4 +116,18 @@ class ProductController extends Controller
         return Excel::download(new ProductsExport, 'products.xlsx');
     }
 
+    public function import()
+    {
+        return view('admin.products.import');
+    }
+
+    public function importData(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv'
+        ]);
+        Excel::import(new \App\Imports\ProductsImport, $request->file('file'));
+        return redirect()->route('admin.products.index')->with('success', 'Les produits ont été importés avec succès');
+    }
+
 }
