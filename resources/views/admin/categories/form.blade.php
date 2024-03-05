@@ -4,6 +4,10 @@
 
 @section('content')
 
+    <div class="flex justify-between mb-8">
+        <a href="{{ route('admin.categories.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Retour</a>
+    </div>
+
     <form class="space-y-6" action="{{ $category->exists ? route('admin.categories.update', $category) : route('admin.categories.store') }}"
           method="post">
 

@@ -3,6 +3,9 @@
 @section('title', $user->exists ? "Modifier un utilisateur" : "Créer un utilisateur")
 
 @section('content')
+    <div class="flex justify-between mb-8">
+        <a href="{{ route('admin.users.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Retour</a>
+    </div>
 
     <form action="{{ $user->exists ? route('admin.users.update', $user) : route('admin.users.store') }}"
           method="post" class="space-y-6" enctype="multipart/form-data">
