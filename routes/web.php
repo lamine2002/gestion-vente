@@ -62,7 +62,11 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('customers', \App\Http\Controllers\Admin\CustomerController::class);
     Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class);
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
-    Route::get('products/export', [\App\Http\Controllers\Admin\ProductController::class, 'export'])->name('products.export');
+
 });
+Route::get('/products/export', [\App\Http\Controllers\Admin\ProductController::class, 'export'])->name('products.export')->middleware('auth');
+// route vers le formulaire d'importation
+Route::get('/products/import', [\App\Http\Controllers\Admin\ProductController::class, 'import'])->name('products.import')->middleware('auth');
+
 
 require __DIR__.'/auth.php';

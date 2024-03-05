@@ -6,6 +6,11 @@
     @can('create', \App\Models\Product::class)
     <div class="flex justify-between mb-8">
         <a href="{{ route('admin.products.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ajouter un Produit</a>
+        {{-- div pour les bouton d'export et d'import       --}}
+        <div class="flex justify-between">
+            <a href="{{ route('products.export') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Exporter</a>
+{{--            <a href="{{ route('admin.products.import') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">Importer</a>--}}
+        </div>
     </div>
     @endcan
 
