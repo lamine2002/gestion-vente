@@ -57,7 +57,7 @@ class ProductController extends Controller
      */
     public function store(ProductFormRequest $request)
     {
-        $product = \App\Models\Product::create($request->validated());
+        $product = Product::create($this->extractData(new Product(), $request));
         return redirect()->route('admin.products.index')->with('success', "Le produit $product->name a été créé avec succès");
     }
 
