@@ -36,6 +36,7 @@
                             @method('DELETE')
                             <button type="submit" class="text-red-600 hover:text-red-900 ml-4">Supprimer</button>
                         </form>
+                        <a href="{{ route('admin.customers.show', $customer) }}" class="text-indigo-600 hover:text-indigo-900 ml-4">Historique</a>
                     </td>
                     @endcan
                     @cannot('update', $customer)
