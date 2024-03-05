@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductFormRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -16,6 +17,19 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    private function extractData (Product $product, ProductFormRequest $request):array {
+        $data = $request->validated();
+        $photo = $request->validated('photo');
+        if ($photo === null || $photo->getError()) {
+            return $data;
+        }
+        if ($product->photo !== null) {
+            Storage::disk('public')->delete($product->photo);
+        }
+        $data['photo'] = $photo->store('products', 'public');
+        return $data;
+    }
     public function index()
     {
         return view('admin.products.index',
