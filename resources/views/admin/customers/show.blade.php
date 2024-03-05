@@ -2,6 +2,16 @@
 
 @section('content')
 
+{{-- bountou retour    --}}
+    <div class="flex items-center justify-between mb-4">
+        <a href="{{ route('admin.customers.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Retour</a>
+    </div>
+
+    <div class="flex items-center justify-between mb-4">
+        <h1 class="text-2xl font-bold">Client: {{ $customer->firstname }} {{ $customer->lastname }}</h1>
+        <a href="{{ route('admin.customers.edit', $customer) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Modifier</a>
+    </div>
+
     {{-- Voir le client et l'historique de ces commandes avec des classes tailwind  --}}
     <div class="p-6">
         <h2 class="text-2xl font-bold mb-4">Details Client</h2>
@@ -37,6 +47,15 @@
                         </dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             {{ $customer->phone }}
+                        </dd>
+                    </div>
+                    {{--  nombre de commandes                  --}}
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Nombre de commandes
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {{ $customer->orders->count() }}
                         </dd>
                     </div>
                 </dl>

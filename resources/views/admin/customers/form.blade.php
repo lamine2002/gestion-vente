@@ -3,6 +3,9 @@
 @section('title', $customer->exists ? "Modifier un client" : "Créer un client")
 
 @section('content')
+    <div class="flex items-center justify-between mb-4">
+        <a href="{{ route('admin.customers.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Retour</a>
+    </div>
 
     <form action="{{ $customer->exists ? route('admin.customers.update', $customer) : route('admin.customers.store') }}"
           method="post" class="space-y-6">
