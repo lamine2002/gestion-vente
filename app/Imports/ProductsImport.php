@@ -18,7 +18,7 @@ class ProductsImport implements ToModel, WithHeadingRow
     {
         dd($row);
         // Téléchargez l'image à partir de l'URL
-        $imageContents = file_get_contents($row['photo']);
+        $imageContents = ($row['photo']);
 //        dd($imageContents);
         // Générer un nom de fichier unique
         $imageName = uniqid() . '.jpg';
