@@ -16,15 +16,15 @@ class ProductsImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        dd($row);
+//        dd($row);
         // Téléchargez l'image à partir de l'URL
-        $imageContents = ($row['photo']);
+//        $imageContents = ($row['photo']);
 //        dd($imageContents);
         // Générer un nom de fichier unique
-        $imageName = uniqid() . '.jpg';
+//        $imageName = uniqid() . '.jpg';
 
         // Enregistrez l'image sur votre serveur
-        Storage::disk('public')->put('products/' . $imageName, $imageContents);
+//        Storage::disk('public')->put('products/' . $imageName, $imageContents);
 
         if ($row['categorie'] === 'Alimentaire') {
             $categoryId = 1;
@@ -41,7 +41,7 @@ class ProductsImport implements ToModel, WithHeadingRow
             'category_id' => $categoryId,
             'price' => $row['prix'],
             'stock' => $row['stock'],
-            'photo' => 'products/' . $imageName,
+            'photo' => $row['photo'],
         ]);
 
     }
