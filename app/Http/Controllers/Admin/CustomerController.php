@@ -89,4 +89,12 @@ class CustomerController extends Controller
         return redirect()->route('admin.customers.index')->with('success', "Le client $customer->firstname $customer->lastname a été supprimé avec succès");
     }
 
+    public function exportPDF()
+    {
+        $customers = \App\Models\Customer::all();
+        $pdf = \PDF::loadView('admin.customers.pdf', compact('customers'));
+        return $pdf->download('customers.pdf');
+
+    }
+
 }

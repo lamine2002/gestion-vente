@@ -6,6 +6,8 @@
     @can('create', \App\Models\Customer::class)
     <div class="flex justify-between items-center">
         <a href="{{ route('admin.customers.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ajouter un Client</a>
+        {{-- Exporter le pdf des clients       --}}
+        <a href="{{ route('customers.exportPDF') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Exporter en PDF</a>
     </div>
     @endcan
     <div class="mt-6">

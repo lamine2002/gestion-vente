@@ -70,5 +70,8 @@ Route::get('/products/import', [\App\Http\Controllers\Admin\ProductController::c
 // route pour l'importation
 Route::post('/products/import', [\App\Http\Controllers\Admin\ProductController::class, 'importData'])->name('products.importData')->middleware('auth');
 
+// exportation des clients en pdf
+Route::get('/customers/export/pdf', [\App\Http\Controllers\Admin\CustomerController::class, 'exportPDF'])->name('customers.exportPDF')->middleware('auth');
+
 
 require __DIR__.'/auth.php';
