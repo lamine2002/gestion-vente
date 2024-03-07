@@ -3,6 +3,26 @@
 @section('title', 'Commandes')
 
 @section('content')
+
+    <div class="bg-gray-100 p-4 mb-8 text-center rounded-3xl">
+        <form action="" method="get" class="container flex gap-2 justify-center">
+            <input type="text" placeholder="Numero commande" class="form-input text-sm rounded-2xl" name="order_number" value="{{ $input['order_number'] ?? '' }}">
+            <input type="text" placeholder="Nom du Client" class="form-input text-sm rounded-2xl" name="customer_name" value="{{ $input['customer_name'] ?? '' }}">
+            <select name="order_status" class="form-select text-sm rounded-2xl">
+                <option value="">Tous les status</option>
+                <option value="En attente" {{ isset($input['order_status']) && $input['order_status'] == 'En attente' ? 'selected' : '' }}>En attente</option>
+                <option value="En cours de traitement" {{ isset($input['order_status']) && $input['order_status'] == 'En cours de traitement' ? 'selected' : '' }}>En cours de traitement</option>
+                <option value="Terminée" {{ isset($input['order_status']) && $input['order_status'] == 'Terminée' ? 'selected' : '' }}>Terminée</option>
+                <option value="Annulée" {{ isset($input['order_status']) && $input['order_status'] == 'Annulée' ? 'selected' : '' }}>Annulée</option>
+            </select>
+            <input type="date" class=" form-input text-sm rounded-3xl" name="order_date" value="{{ $input['order_date'] ?? '' }}">
+            <button class="btn btn-primary btn-sm flex-grow-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 text-xs rounded">
+                Rechercher
+            </button>
+        </form>
+    </div>
+
+
     <div class="flex justify-between mb-8">
         <a href="{{ route('admin.orders.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ajouter une Commande</a>
     </div>

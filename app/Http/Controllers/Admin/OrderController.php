@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\OrderFormRequest;
+use App\Http\Requests\Admin\SearchOrderRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -16,14 +17,30 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(SearchOrderRequest $request)
     {
-        return view('admin.orders.index',
-            [
-                'orders' => \App\Models\Order::orderBy('created_at', 'desc')->paginate(10)
-            ]
-        );
+        $orders = Order::query()
+            ->when($request->input('customer_name'), function ($query, $customerName) {
+                $query->whereHas('customer', function ($query) use ($customerName) {
+                    $query->where('firstname', 'like', "%$customerName%")
+                        ->orWhere('lastname', 'like', "%$customerName%");
+                });
+            })
+            ->when($request->input('order_number'), function ($query, $orderNumber) {
+                $query->where('numOrder', 'like', "%$orderNumber%");
+            })
+            ->when($request->input('order_status'), function ($query, $orderStatus) {
+                $query->where('status', 'like', "%$orderStatus%");
+            })
+            ->when($request->input('order_date'), function ($query, $orderDate) {
+                $query->whereDate('orderDate', $orderDate);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+
+        return view('admin.orders.index', compact('orders'));
     }
+
 
     /**
      * Show the form for creating a new resource.
