@@ -119,13 +119,18 @@ class OrderController extends Controller
                 'total' => $request->input('total')
             ]
         );
+        // Détacher tous les produits de la commande
+        $order->products()->detach();
+
 
         $orderStatus = $request->input('status');
         $OrderValidate = $orderStatus === 'Terminée';
         // synchroniser les produits et les quantités
         foreach ($request->input('products') as $key => $product) {
-            $order->products()->syncWithoutDetaching([$product => ['quantity' => $request->input('quantities')[$key]]]);
-            // syncWithoutDetaching pour ne pas supprimer les produits qui ne sont pas dans la requête de la base de données
+           // $order->products()->syncWithoutDetaching([$product => ['quantity' => $request->input('quantities')[$key]]]);
+            // Attacher uniquement les produits qui sont encore dans la demande
+            $order->products()->attach($product, ['quantity' => $request->input('quantities')[$key]]);
+
             // mise à jour du stock
             if ($OrderValidate){
                 $productUpdate = \App\Models\Product::find($product);
