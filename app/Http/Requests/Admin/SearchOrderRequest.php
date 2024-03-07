@@ -11,7 +11,7 @@ class SearchOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class SearchOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'customer_name' => 'nullable|string',
+            'order_number' => 'nullable|string',
+            'order_status' => 'nullable|string',
+            'order_date' => 'nullable|string',
         ];
     }
 }
