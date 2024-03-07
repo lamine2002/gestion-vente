@@ -29,8 +29,8 @@ class OrderFormRequest extends FormRequest
             'numOrder' => 'required|string',
             'orderDate' => 'required|date',
             'total' => 'required|string',
-            'products' => 'required|array',
-            'quantities' => 'required|array'
+            'products' => 'required|array|min:1',
+            'quantities' => 'required|array|min:1',
         ];
     }
 }
