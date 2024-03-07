@@ -451,7 +451,7 @@
             row.querySelector('input[name="prices[]"]').value = price;
             row.querySelector('input[name="lineTotal[]"]').value = total;
             calculateTotal();
-
+            clearAddproductField();
             // Remove the editing class from the row
             row.classList.remove('editing');
             document.getElementById('addProduct').classList.remove('hidden');
