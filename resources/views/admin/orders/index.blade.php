@@ -90,8 +90,8 @@
                                             @can('update', $order)
                                                 <a href="{{ route('admin.orders.edit', $order) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Modifier</a>
                                                 <form class="inline-block" action="{{ route('admin.orders.destroy', $order) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette commande?');">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                    @csrf
+                                                    @method('DELETE')
                                                     <button type="submit" class="text-red-600 hover:text-red-900">Supprimer</button>
                                                 </form>
                                             @endcan

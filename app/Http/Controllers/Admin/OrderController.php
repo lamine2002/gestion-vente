@@ -166,6 +166,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
+        $order->products()->detach();
         $order->delete();
         return redirect()->route('admin.orders.index')->with('success', "La commande $order->numOrder a été supprimée avec succès");
     }
