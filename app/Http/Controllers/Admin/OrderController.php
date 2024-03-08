@@ -19,26 +19,27 @@ class OrderController extends Controller
      */
     public function index(SearchOrderRequest $request)
     {
-        $orders = Order::query()
-            ->when($request->input('customer_name'), function ($query, $customerName) {
-                $query->whereHas('customer', function ($query) use ($customerName) {
-                    $query->where('firstname', 'like', "%$customerName%")
-                        ->orWhere('lastname', 'like', "%$customerName%");
-                });
-            })
-            ->when($request->input('order_number'), function ($query, $orderNumber) {
-                $query->where('numOrder', 'like', "%$orderNumber%");
-            })
-            ->when($request->input('order_status'), function ($query, $orderStatus) {
-                $query->where('status', 'like', "%$orderStatus%");
-            })
-            ->when($request->input('order_date'), function ($query, $orderDate) {
-                $query->whereDate('orderDate', $orderDate);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(5);
-
-        return view('admin.orders.index', compact('orders'));
+        $query = Order::query()->orderBy('created_at', 'desc');
+        if ($customerName = $request->validated('customer_name')) {
+            $query = $query->whereHas('customer', function ($query) use ($customerName) {
+                $query->where('firstname', 'like', "%$customerName%")
+                    ->orWhere('lastname', 'like', "%$customerName%");
+            });
+        }
+        if ($orderNumber = $request->validated('order_number')) {
+            $query = $query->where('numOrder', 'like', "%$orderNumber%");
+        }
+        if ($orderStatus = $request->validated('order_status')) {
+            $query = $query->where('status', 'like', "%$orderStatus%");
+        }
+        if ($orderDate = $request->validated('order_date')) {
+            $query = $query->where('orderDate', 'like', "%$orderDate%");
+        }
+        return view('admin.orders.index',
+            [
+                'orders' => $query->paginate(10),
+//                'input' => $request->validated()
+            ]);
     }
 
 
