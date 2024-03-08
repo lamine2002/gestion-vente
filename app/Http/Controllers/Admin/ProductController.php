@@ -103,6 +103,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        // si le produit est associé à une commande, on ne peut pas le supprimer
+        if ($product->orders()->count() > 0) {
+            return redirect()->route('admin.products.index')->with('error', "Le produit $product->name est associé à une commande, vous ne pouvez pas le supprimer");
+        }
         //supprimer l'image correspondante de l'utilisateur si elle existe
         if ($product->photo !== null) {
             Storage::disk('public')->delete($product->photo);

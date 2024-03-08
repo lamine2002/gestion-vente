@@ -85,6 +85,10 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
+        // on ne peut pas supprimer un client qui a des commandes
+        if ($customer->orders->count() > 0) {
+            return back()->with('error', "Le client $customer->firstname $customer->lastname ne peut pas être supprimé car il a des commandes");
+        }
         $customer->delete();
         return redirect()->route('admin.customers.index')->with('success', "Le client $customer->firstname $customer->lastname a été supprimé avec succès");
     }

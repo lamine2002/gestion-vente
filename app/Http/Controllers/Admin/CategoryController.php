@@ -84,6 +84,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        // on ne peut pas supprimer une catégorie qui a des produits
+        if ($category->products->isNotEmpty()) {
+            return redirect()->route('admin.categories.index')->with('error', "La catégorie $category->name ne peut pas être supprimée car elle contient des produits");
+        }
         $category->delete();
         return redirect()->route('admin.categories.index')->with('success', "La catégorie $category->name a été supprimée avec succès");
     }
