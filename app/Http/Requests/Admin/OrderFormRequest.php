@@ -23,14 +23,19 @@ class OrderFormRequest extends FormRequest
     {
         return [
             'customer_id' => 'required|integer',
-            'user_id' => 'integer',
-            'status' => 'required|string',
+            'user_id' => 'nullable|integer',
+            'status' => 'nullable|string',
             'payment' => 'required|string',
-            'numOrder' => 'required|string',
-            'orderDate' => 'required|date',
+            'numOrder' => 'nullable|string',
+            'orderDate' => 'nullable|date',
             'total' => 'required|string',
             'products' => 'required|array|min:1',
             'quantities' => 'required|array|min:1',
+            'firstname' => 'nullable|string',
+            'lastname' => 'nullable|string',
+            'address' => 'nullable|string',
+            'phone' => 'nullable|string',
+            'sex' => 'nullable|string',
         ];
     }
 }
