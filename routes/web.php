@@ -20,6 +20,7 @@ Route::get('/', function () {
 //    \App\Models\User::create(
 //        [
 //            'name' => 'admin',
+//            'role' => 'admin', // ajout du role 'admin
 //            'email' => 'admin@gmail.com',
 //            'password' => \Illuminate\Support\Facades\Hash::make('passer')
 //    ]);

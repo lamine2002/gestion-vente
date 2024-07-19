@@ -1,9 +1,13 @@
 <?php
+
 use App\Http\Controllers\Api\Admin\CategoryController;
 use App\Http\Controllers\Api\Admin\CustomerController;
 use App\Http\Controllers\Api\Admin\OrderController;
 use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\AuthController;
+
+//use App\Http\Controllers\Ecomm\ProductController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 
 // Routes pour l'authentification
 Route::post('register', [AuthController::class, 'register']);
@@ -55,3 +60,5 @@ Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->
 Route::get('customers', [CustomerController::class, 'index'])->name('api.admin.customers.index');
 Route::post('/store/customers', [CustomerController::class, 'store'])->name('api.admin.customers.store');
 Route::put('customers/{customer}', [CustomerController::class, 'update'])->name('api.admin.customers.update');
+Route::get('/products', [ProductController::class, 'homeProducts']);
+
