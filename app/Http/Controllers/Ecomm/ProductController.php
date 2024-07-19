@@ -24,4 +24,21 @@ class ProductController extends Controller
             ]);
         }
     }
+
+    public function productDetail($id)
+    {
+        try {
+            $product = Product::with('category')->find($id);
+            return response()->json([
+                'message' => 'Produit récupéré avec succès',
+                'product' => $product,
+                'status' => 200
+            ]);
+        }catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Une erreur est survenue lors de la récupération du produit',
+                'status' => 500
+            ]);
+        }
+    }
 }
