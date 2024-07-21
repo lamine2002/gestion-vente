@@ -65,5 +65,6 @@ Route::put('customers/{customer}', [CustomerController::class, 'update'])->name(
 
 Route::get('/products', [App\Http\Controllers\Ecomm\ProductController::class, 'homeProducts']);
 Route::get('/product/{id}', [App\Http\Controllers\Ecomm\ProductController::class, 'productDetail']);
-Route::post('/make-order', [App\Http\Controllers\Ecomm\OrderController::class, 'makeOrder']);
+Route::post('/make-order', );
+Route::get('/track-order/{numOrder}', [App\Http\Controllers\Ecomm\OrderController::class, 'trackOrder']);
 
