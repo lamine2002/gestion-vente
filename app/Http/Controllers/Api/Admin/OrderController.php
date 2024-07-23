@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -12,7 +13,20 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $orders = Order::with('customer')->get();
+            return response()->json([
+                'orders' => $orders,
+                'message' => 'Commandes récupérées avec succès.',
+                'status' => 200
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Une erreur est survenue lors de la récupération des commandes.',
+                'status' => 500
+
+            ]);
+        }
     }
 
     /**

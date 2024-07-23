@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Routes pour l'authentification
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::get('orders', [OrderController::class, 'index'])->name('api.admin.orders.index');
 
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('products', [ProductController::class, 'index'])->name('api.admin.products.index');
@@ -44,7 +45,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('customers/{customer}', [CustomerController::class, 'show'])->name('api.admin.customers.show');
 
     Route::delete('customers/{customer}', [CustomerController::class, 'destroy'])->name('api.admin.customers.destroy');
-    Route::get('orders', [OrderController::class, 'index'])->name('api.admin.orders.index');
+
     Route::post('orders', [OrderController::class, 'store'])->name('api.admin.orders.store');
     Route::get('orders/{order}', [OrderController::class, 'show'])->name('api.admin.orders.show');
     Route::put('orders/{order}', [OrderController::class, 'update'])->name('api.admin.orders.update');

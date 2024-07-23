@@ -28,7 +28,7 @@ class OrderController extends Controller
         try {
 
             // vérification de l'existence du client
-            $customer = Customer::find($request->customer_id);
+            $customer = Customer::where('phone', $request->phone)->first();
             if (!$customer) {
                 $customer = Customer::create([
                     'firstname' => $request->firstname,

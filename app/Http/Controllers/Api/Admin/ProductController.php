@@ -36,8 +36,19 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->paginate(10);
-        return response()->json($products);
+        try {
+            $products = Product::with('category')->orderBy('created_at', 'desc')->get();
+            return response()->json([
+                'message' => 'Produits récupérés avec succès',
+                'products' => $products,
+                'status' => 200
+            ]);
+        }catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Une erreur est survenue lors de la récupération des produits',
+                'status' => 500
+            ]);
+        }
     }
 
     /**
