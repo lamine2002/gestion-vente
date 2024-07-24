@@ -168,10 +168,11 @@ class OrdersController extends Controller
     }
     public function showOrder(Order $order)
     {
+//        return "showOrder";
         try {
-            $showOrder = Order::with('products')->where('id', $order)->get();
-            return \response()->json([
-                'order'=> $order,
+            $showOrder = Order::with('customer', 'products')->find($order->id);
+            return response()->json([
+                'order'=> $showOrder,
                 'message'=>'commande recuperee avec succes',
                 'status'=>200
             ]);

@@ -32,9 +32,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register'])->withoutMiddleware('auth:sanctum');
 Route::post('/login', [AuthController::class, 'login'])->withoutMiddleware('auth:sanctum');
 //
-Route::get('orders/{order}', [OrdersController::class, 'showOrder'])->name('api.admin.orders.showOrder');
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::get('/orders/{order}', [OrdersController::class, 'showOrder'])->name('api.admin.orders.showOrder')->withoutMiddleware('auth:sanctum');
 
     Route::put('/orders/{order}/validate', [OrdersController::class, 'validateOrders']);
     Route::put('/orders/{order}/cancel', [OrdersController::class, 'cancel']);
@@ -87,7 +87,7 @@ Route::get('orders', [OrdersController::class, 'index'])->name('api.admin.orders
 
 //    Route::post('orders', [OrderController::class, 'store'])->name('api.admin.orders.store');
 
-    Route::get('orders/{order}', [OrdersController::class, 'show'])->name('api.admin.orders.show');
+//    Route::get('orders/{order}', [OrdersController::class, 'show'])->name('api.admin.orders.show');
     Route::put('orders/{order}', [OrdersController::class, 'update'])->name('api.admin.orders.update');
     Route::delete('orders/{order}', [OrdersController::class, 'destroy'])->name('api.admin.orders.destroy');
     Route::post('/refresh', [AuthController::class, 'refresh']);
