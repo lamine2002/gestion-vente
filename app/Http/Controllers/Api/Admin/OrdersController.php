@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\OrderFormRequest;
 use App\Http\Requests\Admin\SearchOrderRequest;
 
 use App\Models\Order;
+use http\Env\Response;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
@@ -142,4 +143,55 @@ class OrdersController extends Controller
             'message' => "La commande $order->numOrder a été supprimée avec succès"
         ], 200);
     }
+    public function validateOrders(Order $order)
+    {
+        $order->status = 'Terminée';
+        $order->save();
+
+        return response()->json(['message' => 'Commande validée avec succès']);
+    }
+
+    public function cancel(Order $order)
+    {
+        $order->status = 'Annulée';
+        $order->save();
+
+        return response()->json(['message' => 'Commande annulée avec succès']);
+    }
+
+    public function process(Order $order)
+    {
+        $order->status = 'En cours de traitement';
+        $order->save();
+
+        return response()->json(['message' => 'Commande mise en cours de traitement']);
+    }
+    public function showOrder(Order $order)
+    {
+        try {
+            $showOrder = Order::with('products')->where('id', $order)->get();
+            return \response()->json([
+                'order'=> $order,
+                'message'=>'commande recuperee avec succes',
+                'status'=>200
+            ]);
+        } catch (\Exception $e) {
+                return response()->json([
+                    'message' => 'Une erreur est survenue lors de la récupération des commandes.',
+                    'status' => 500
+
+                ]);
+            }
+
+
+
+}
+
+
+
+
+
+
+
+
 }
