@@ -3,17 +3,20 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+
 use App\Http\Requests\Admin\OrderFormRequest;
 use App\Http\Requests\Admin\SearchOrderRequest;
+
 use App\Models\Order;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class OrdersController extends Controller
 {
     /**
      * Display a listing of the resource.
     public function __construct()
     {
+
     $this->authorizeResource(\App\Models\Order::class, 'order');
     }
 
@@ -22,23 +25,22 @@ class OrderController extends Controller
      */
     public function index(SearchOrderRequest $request)
     {
-        $query = Order::query()->orderBy('created_at', 'desc');
-        if ($customerName = $request->validated('customer_name')) {
-            $query = $query->whereHas('customer', function ($query) use ($customerName) {
-                $query->where('firstname', 'like', "%$customerName%")
-                    ->orWhere('lastname', 'like', "%$customerName%");
-            });
+
+        try {
+            $orders = Order::with('customer')->get();
+            return response()->json([
+                'orders' => $orders,
+                'message' => 'Commandes récupérées avec succès.',
+                'status' => 200
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Une erreur est survenue lors de la récupération des commandes.',
+                'status' => 500
+
+            ]);
         }
-        if ($orderNumber = $request->validated('order_number')) {
-            $query = $query->where('numOrder', 'like', "%$orderNumber%");
-        }
-        if ($orderStatus = $request->validated('order_status')) {
-            $query = $query->where('status', 'like', "%$orderStatus%");
-        }
-        if ($orderDate = $request->validated('order_date')) {
-            $query = $query->where('orderDate', 'like', "%$orderDate%");
-        }
-        return response()->json();
+
     }
 
     /**
