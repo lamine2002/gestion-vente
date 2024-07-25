@@ -33,9 +33,22 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer)
+    public function show($phone)
     {
-        return response()->json($customer);
+        try {
+            $customer = Customer::where('phone', $phone)->firstOrFail();
+            return response()->json([
+                'message' => 'Client récupéré avec succès',
+                'customer' => $customer,
+                'status' => 200
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Client non trouvé',
+                'status' => 404
+            ], 404);
+
+        }
     }
 
     /**

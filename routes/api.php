@@ -68,7 +68,6 @@ Route::get('orders', [OrdersController::class, 'index'])->name('api.admin.orders
     Route::get('customers', [CustomerController::class, 'index'])->name('api.admin.customers.index');
     Route::post('/store/customers', [CustomerController::class, 'store'])->name('api.admin.customers.store');
     Route::put('/customers/{customer}', [CustomerController::class, 'update'])->name('api.admin.customers.update');
-    Route::get('customers/{customer}', [CustomerController::class, 'show'])->name('api.admin.customers.show');
 
     Route::get('/admin/dashboard-stats', function () {
         return response()->json([
@@ -110,5 +109,6 @@ Route::get('/products', [App\Http\Controllers\Ecomm\ProductController::class, 'h
 Route::get('/product/{id}', [App\Http\Controllers\Ecomm\ProductController::class, 'productDetail']);
 Route::post('/make-order', [App\Http\Controllers\Ecomm\OrderController::class, 'makeOrder']);
 Route::get('/track-order/{numOrder}', [App\Http\Controllers\Ecomm\OrderController::class, 'trackOrder']);
+Route::get('customers/{phone}', [CustomerController::class, 'show'])->name('api.admin.customers.show');
 
 
